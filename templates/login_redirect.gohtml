@@ -1,12 +1,7 @@
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
-    {{/* <meta charset="UTF-8"> */}}
     <meta charset="UTF-8" http-equiv="refresh" content="5;url=/signup">
-
     <title>KV Food Delivery</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
@@ -20,67 +15,10 @@
 
 </style>
 
-
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="/">KV FOOD</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Your Cart
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/yourcart">View Your Cart</a>
-          <a class="dropdown-item" href="/clearcart">Clear Shopping Cart</a>
-        </div>
-      </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Orders
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/alltransactions">All Transactions</a>
-          <a class="dropdown-item" href="/allsystemorders">All System Orders</a>
-        </div>
-      </li>
-
-
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Queue
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/viewqueue">View All System Queue</a>
-          <a class="dropdown-item" href="/dispatchdriver">Dispatch Driver</a>
-          <a class="dropdown-item" href="/dispatchqueue">Dispatch Queue</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</nav>
+{{template "new-navbar" .}}
 
 <div class="container mt-5"></div>
 <div class="container maincontainerindex">

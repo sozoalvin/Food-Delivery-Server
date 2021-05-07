@@ -7,15 +7,8 @@ import (
 	"strings"
 )
 
-// serve postal codes
-// 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
-// 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-// 62, 63, 64, 65
-
-// var CartList = make([]string
-
 type LlNode struct {
-	item *FoodInfo2 //<- cannot be string
+	item *FoodInfo //<- cannot be string
 	next *Node
 }
 type LinkedList struct { //creation of single linked list
@@ -58,13 +51,6 @@ func (t *Trie) PreInsertTrie(u []string, ch chan string) {
 	}
 	ch <- "Food List Search Auto Complete Database Updated"
 }
-
-// func (t *Trie) PreInsertTrieUser(u []UsernameCustom, ch chan string) {
-// 	for _, v := range u {
-// 		t.InsertUser(v.UserName)
-// 	}
-// 	ch <- "All UserName Database Updated"
-// }
 
 func (t *Trie) Insert(w string) {
 

@@ -1,6 +1,3 @@
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,73 +10,17 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
   <style type="text/css">
-   body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
-<link rel="stylesheet" href="assets/styles.css">
-
+    body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+    <link rel="stylesheet" href="assets/styles.css">
+    input[type="quantity"]{
+    text-align:center;
+    }
 </style>
-
 
 </head>
 <body>
 
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="/">KV FOOD</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Your Cart
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/yourcart">View Your Cart</a>
-          <a class="dropdown-item" href="/clearcart">Clear Shopping Cart</a>
-        </div>
-      </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Orders
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/alltransactions">All Transactions</a>
-          <a class="dropdown-item" href="/allsystemorders">All System Orders</a>
-        </div>
-      </li>
-
-
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Queue
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/viewqueue">View All System Queue</a>
-          <a class="dropdown-item" href="/dispatchdriver">Dispatch Driver</a>
-          <a class="dropdown-item" href="/dispatchqueue">Dispatch Queue</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</nav>
+{{template "new-navbar" .}}
 
 <div class="container maincontainerindex">
   <div class="row">
@@ -87,14 +28,13 @@
     </div>
     <div class="col-sm mt-5"> 
      
-     {{if .}}
-     
-  <img src="https://i.ibb.co/W2QHwsV/full-cart.png" class="rounded shadow-lg p-2 mb-3 rounded">
-     {{else}}   
-          <img src ="https://i.ibb.co/0Gj7pxY/empty-cart.png" class="rounded shadow-lg p-2 mb-3 rounded">
-    {{end}}
-    
-    
+
+{{if .Data}}
+    <img src="https://i.ibb.co/W2QHwsV/full-cart.png" class="rounded shadow-lg p-2 mb-3 rounded">
+    {{else}}
+    <img src ="https://i.ibb.co/0Gj7pxY/empty-cart.png" class="rounded shadow-lg p-2 mb-3 rounded">
+{{end}}
+
     </div>
     <div class="col-sm">
     </div>
@@ -118,7 +58,7 @@
 
 
 
-{{range $KEY, $VALUE := .}}
+{{range $KEY, $VALUE := .Data}}
 	<form method="post"> 	
 <div class="row">	
   <div class="col-sm-8">{{$VALUE.FoodName}}	
@@ -146,9 +86,6 @@
 </form>
 {{end}}
 
-
-
-
 <div class="container bg-light ml-10 mr-10">
 
 <form method="post"> 
@@ -157,11 +94,11 @@
   <div class="col-sm-8"></div>
   <div class="col-sm-4">
   
+       {{if .Data}}
+
     <label for="exampleFormControlInput1">Enter Priority Index Number here if the order is for service recovery</label>
     <input type="number" class="form-control" name="priorityindex" placeholder="Priority Index Value: 0-99">
 
-
-     {{if .}}
 
   <div class="col-sm-2 pt-3"><button type="submit" class="btn btn-dark text-justify">Checkout</button></div></div>
   </div>
@@ -172,9 +109,6 @@
 
 </div>
 </div>
-
-
-
 
 </body>
 </html> 

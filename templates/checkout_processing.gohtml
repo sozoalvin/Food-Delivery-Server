@@ -1,95 +1,33 @@
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
-    {{/* <meta charset="UTF-8"> */}}
-    <meta charset="UTF-8" http-equiv="refresh" content="4;url=/checkout" />
-
+    <meta charset="UTF-8">
     <title>KV Food Delivery</title>
-
+    <meta charset="UTF-8" http-equiv="refresh" content="4;url=/checkout" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
   <style type="text/css">
-   body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
-<link rel="stylesheet" href="assets/styles.css">
-
+    body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+    <link rel="stylesheet" href="assets/styles.css">
+    input[type="quantity"]{
+    text-align:center;
+    }
 </style>
-
 
 </head>
 <body>
 
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="/">KV FOOD</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Your Cart
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/yourcart">View Your Cart</a>
-          <a class="dropdown-item" href="/clearcart">Clear Shopping Cart</a>
-        </div>
-      </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Orders
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/alltransactions">All Transactions</a>
-          <a class="dropdown-item" href="/allsystemorders">All System Orders</a>
-        </div>
-      </li>
-
-
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Queue
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/viewqueue">View All System Queue</a>
-          <a class="dropdown-item" href="/dispatchdriver">Dispatch Driver</a>
-          <a class="dropdown-item" href="/dispatchqueue">Dispatch Queue</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</nav>
+{{template "new-navbar" .}}
 
 <div class="container maincontainerindex">
   <div class="row">
     <div class="col-sm">
     </div>
     <div class="col-sm mt-5">
-     {{/* <img src="https://cdn.shopify.com/s/files/1/0200/7466/files/express-checkout-or_d7530793-3905-4317-b0fa-3d6d1d029b68.png" height: 50px; > */}}
-      {{/* <img src="assets/rs2.png"> */}}
+
     </div>
     <div class="col-sm">
     </div>
@@ -99,9 +37,9 @@
 <div class="container pb-5"></div> 
 <div class="container bg-light ml-10 mr-10">
 <dv class="container p-1">
-<h2>ola <span class="bg-warning"> {{.First}} </span>!</h2>
+<h2>ola <span class="bg-warning"> {{.Data.Fname}} </span>!</h2>
 <h3>Checking Out In Process... Please do not refresh your browser </h3>
-<h4>You will receive an order confirmation at your email : <span class="bg-warning"> {{.UserName}}</span>
+<h4>You will receive an order confirmation at your email : <span class="bg-warning"> {{.Data.Username}}</span>
 </div></div>
 
 

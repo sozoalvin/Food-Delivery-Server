@@ -20,63 +20,8 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="/">KV FOOD</a>
+{{template "new-navbar" .}}
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Your Cart
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/yourcart">View Your Cart</a>
-          <a class="dropdown-item" href="/clearcart">Clear Shopping Cart</a>
-        </div>
-      </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Orders
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/alltransactions">All Transactions</a>
-          <a class="dropdown-item" href="/allsystemorders">All System Orders</a>
-        </div>
-      </li>
-
-
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Queue
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/viewqueue">View All System Queue</a>
-          <a class="dropdown-item" href="/dispatchdriver">Dispatch Driver</a>
-          <a class="dropdown-item" href="/dispatchqueue">Dispatch Queue</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</nav>
 
 <div class="container maincontainerindex">
   <div class="row">
@@ -97,42 +42,41 @@
 <h3>All System Queues</h3>
 </div>
 
+
 <div class="container pb-5 "></div> 
 <div class="container bg-light ml-10 mr-10 rounded shadow-sm p-2 mb-3 bg-white rounded">
 <dv class="container p-1 ">
-{{range .}}
+{{range .Data}}
 
 <div class="row">
-  <div class="col-sm-8 pl-4"><h5>{{.SystemQueueNumber}}</h5></div>
+  <div class="col-sm-8 pl-4"><h5>{{.SysID}}</h5></div>
   <div class="col-sm-4"></div>
 </div>
 
 <div class="row">
   <div class="col-sm-8 pt-1 pl-4"><strong>Priority Number:</strong></div>
-  <div class="col-sm-4 pt-1">{{.PriorityIndex}}</div>
+  <div class="col-sm-4 pt-1">{{.Pi}}</div>
 </div>
 
 <div class="row">
-  <div class="col-sm-8 pt-1 pl-4"><p>Order Tagged to:</p></div>
-  <div class="col-sm-4 pt-1">{{.UserName}}</div>
+  <div class="col-sm-8 pt-1 pl-4"><strong>Priority Number:</strong></div>
+  <div class="col-sm-4 pt-1">{{.Time}}</div>
 </div>
+
 
 <div class="row">
   <div class="col-sm-8 pl-4"><p>Associated Transactions</p></div>
   <div class="col-sm-4"></div>
 
-  {{range $TVALUE := .TransID}}
-    <div class="col-sm-8"><p></p></div>
-  <div class="col-sm-4"><p>{{$TVALUE}}</p></div>
-  {{end}}
 
-    {{if .DriverName}}
+
+    {{if ne .DriverID ""}}
         <div class="col-sm-8 pl-4"><p>Delivery Assigned to KV Rider Partner:</p></div>
-  <div class="col-sm-4"><p>Delivery Driver ID: {{.DriverName}}</p></div>
+  <div class="col-sm-4"><p>Delivery Driver ID: {{.DriverID}}</p></div>
   {{else}}
           <div class="col-sm-8 pl-2"> <div class="col-6"> Please Update with Driver Name:
           <form method="post">
-            <input type = "hidden" name = "systemqueuenumber" value = {{.SystemQueueNumber}}>
+            <input type = "hidden" name = "systemqueuenumber" value = {{.SysID}}>
             <input type="text" class="form-control text-justify" name="drivername" placeholder="Enter driver_userID">
             </div>
             <div class="col-6 mt-2 pb-3"><button type="submit" class="btn btn-dark text-justify" name="updatedriver" value="updatedriver">Update Driver</button></div></div>

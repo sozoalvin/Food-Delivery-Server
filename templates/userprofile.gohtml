@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User Profile</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  <style type="text/css">
+   body { background: #FFCC00 !important; } 
+</style>
+
+</head>
+<body>
+
+{{template "new-navbar" .}}
+
+<div class="container maincontainerindex">
+  <div class="row mt-5">
+    <div class="col-sm"></div>
+    <div class="col-sm shadow-lg"><img src="https://i.ibb.co/C8QV3cQ/tom-yum-nodots.png"></div>
+    <div class="col-sm"></div>
+  </div>
+</div>
+
+<div class="container pb-5"></div> 
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-1 pb-1 pl-4 mb-3 bg-white rounded">
+<div class="container p-1">
+<h3>Edit User Profile</h3>
+</div></div>
+
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
+<form method="post">
+  <div class="form-group pt-1">
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Old Password</label>
+        <input type="password" class="form-control" name="passwordOld" placeholder="Enter your old password">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">New Password</label>
+        <input type="password" class="form-control" name="passwordNew" placeholder="Enter your new password">
+    </div>
+    <p class="text-danger inline small">{{ .Data.Password}}</p>
+
+        <div class="col-6"><button type="submit" class="btn btn-dark text-justify" name="updatePassword" value="updatePassword">Update Password</button>
+    </div>
+    <div class="form-group mt-2">
+        <label for="exampleFormControlInput1">Update Your Delivery Address</label>
+        <input type="text" class="form-control" name="fullAddress">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Your Postal Code</label>
+        <input type="text" class="form-control" name="postalCode">
+    </div>
+    
+    <p class="text-danger inline small">{{ .Data.Address}}</p>
+
+    <div class="col-6">
+        <button type="submit" class="btn btn-dark text-justify" name="updateAddress" value="updateAddress">Update Address Book</button>
+    </div>
+
+<div class="form-group mt-2">
+        <label for="exampleFormControlInput1">Your Contact Number</label>
+        <input type="text" class="form-control" name="postalCode">
+    </div>
+    
+    <p class="text-danger inline small">{{ .Data.ContactNumber}}</p>
+
+    <div class="col-6">
+        <button type="submit" class="btn btn-dark text-justify" name="updateContact" value="updateContact">Update Contact Number</button>
+    </div>
+
+</form>
+
+</div>
+</div>
+
+</body>
+</html>

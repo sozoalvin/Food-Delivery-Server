@@ -18,63 +18,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="/">KV FOOD</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Your Cart
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/yourcart">View Your Cart</a>
-          <a class="dropdown-item" href="/clearcart">Clear Shopping Cart</a>
-        </div>
-      </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Orders
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/alltransactions">All Transactions</a>
-          <a class="dropdown-item" href="/allsystemorders">All System Orders</a>
-        </div>
-      </li>
-
-
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Queue
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/viewqueue">View All System Queue</a>
-          <a class="dropdown-item" href="/dispatchdriver">Dispatch Driver</a>
-          <a class="dropdown-item" href="/dispatchqueue">Dispatch Queue</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</nav>
+{{template "new-navbarSignup"}}
 
 <div class="container maincontainerindex">
   <div class="row mt-5">
@@ -84,21 +28,16 @@
   </div>
 </div>
 
-
-
 <div class="container pb-5"></div> 
 <div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-1 pb-1 pl-4 mb-3 bg-white rounded">
 <div class="container p-1">
 <h3>Log in Here!</h3>
 </div></div>
 
-
-
 <div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
 <form method="post">
   <div class="form-group pt-1">
     <label for="exampleFormControlInput1">Email address </label>
-
 
     <input type="username" class="form-control" name="username" placeholder="name@example.com">
   </div>
@@ -107,7 +46,6 @@
     <label for="exampleFormControlInput1">Password</label>
     <input type="password" class="form-control" name="password" placeholder="Enter your password here...">
   </div>
-    
 
       <input type="submit">
       <div class ="container pb-3"></div>
@@ -115,13 +53,9 @@
 <p class="text-danger inline small">{{ .Username1}}</p>
 <p class="text-danger inline small">{{ .Password}}</p>
 
-
 </form>
-
 </div>
 </div>
-
-
 
 </body>
 </html>

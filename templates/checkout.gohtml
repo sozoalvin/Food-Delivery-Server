@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <title>KV Food Delivery</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
@@ -11,155 +10,79 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
   <style type="text/css">
-   body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
-<link rel="stylesheet" href="assets/styles.css">
-
+    body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+    <link rel="stylesheet" href="assets/styles.css">
+    input[type="quantity"]{
+    text-align:center;
+    }
 </style>
-
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="/">KV FOOD</a>
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Signup</a>
-      </li>
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Your Cart
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/yourcart">View Your Cart</a>
-          <a class="dropdown-item" href="/clearcart">Clear Shopping Cart</a>
-        </div>
-      </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Orders
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/alltransactions">All Transactions</a>
-          <a class="dropdown-item" href="/allsystemorders">All System Orders</a>
-        </div>
-      </li>
-
-
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          System Queue
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/viewqueue">View All System Queue</a>
-          <a class="dropdown-item" href="/dispatchdriver">Dispatch Driver</a>
-          <a class="dropdown-item" href="/dispatchqueue">Dispatch Queue</a>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</nav>
+{{template "new-navbar" .}}
 
 <div class="container maincontainerindex">
   <div class="row">
-    <div class="col-sm">
-    </div>
-    <div class="col-sm mt-5">
-      <img src="https://i.ibb.co/F4SWqvz/muchas-gracias-resized.png" height: "50px";>
-    </div>
-    <div class="col-sm">
-    </div>
+  <div class="col-sm">
   </div>
-</div>
+  <div class="col-sm mt-5">
+    <img src="https://i.ibb.co/F4SWqvz/muchas-gracias-resized.png" height: "50px";>
+  </div>
+  <div class="col-sm">
+  </div>
+  </div>
+    </div>
 
-<div class="container pb-5"></div> 
-<div class="container bg-light ml-10 mr-10">
-<dv class="container p-1">
-<h3>Here are your Order(s) with Us:</h3>
+  <div class="container pb-5"></div> 
+<div class="container bg-light ml-10 mr-10 rounded-lg shadow-sm pt-2 pl-5 pr-6 mb-3 bg-white">
+<div class="container p-1">
+<h3>Thank you for your Order:</h3><h4> {{(index .Data 0).SysID}}
+</h4>
 </div></div>
+<div class="container pb-4"></div>
 
+<div class="container bg-light ml-10 mr-10 rounded-lg shadow-sm pt-2 pl-5 pr-6 mb-3 bg-white">
 
-<div class="container bg-light ml-10 mr-10">
+{{range $KEY, $VALUE := .Data}}
 
-<div class="row">
-  <div class="col-sm-8"><h4>System Order Number</h4></div>
-  <div class="col-sm-4"><h4></h4></div>
-</div>
+  <div class="row">
+    <div class="col-sm-8 pt-1"><strong>Food Name:</strong></div>
+    <div class="col-sm-4 pt-1"></div>
+  </div>
 
+  <div class="row">
+    <div class="col-sm-8 pt-1"><p>{{$VALUE.FoodName}}</p></div>
+    <div class="col-sm-4 pt-1"></div>
+  </div>
 
-{{range $KEY, $VALUE := .}}
+  <div class="row">
+      <div class="col-sm-8"><p><strong>Quantity</strong></p></div>
+      <div class="col-sm-4"><p>{{$VALUE.Quantity}}</p></div>
+  </div>
 
-<div class="row">
-  <div class="col-sm-8"><h5>{{$KEY}}</h5></div>
-  <div class="col-sm-4"></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-8 pt-1"><strong>Food Name:</strong></div>
-  <div class="col-sm-4 pt-1"></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-8 pt-1"><p>{{$VALUE.FoodName}}</p></div>
-  <div class="col-sm-4 pt-1"></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-8"><p><strong>Unit Cost</strong></p></div>
-  <div class="col-sm-4"><p>${{$VALUE.UnitPrice}}</p></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-8"><p><strong>Quantity</strong></p></div>
-  <div class="col-sm-4"><p>{{$VALUE.Quantity}}</p></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-8"><p><strong>Total Price</strong></p></div>
-  <div class="col-sm-4"><p>${{$VALUE.TotalCost}}</p></div>
-</div>
-
+  <div class="row">
+      <div class="col-sm-8"><p><strong>Total Price</strong></p></div>
+      <div class="col-sm-4"><p>${{$VALUE.TotalCost}}</p></div>
+  </div>
 
 {{end}}
 
-</div>
-
-<div class="container bg-light ml-10 mr-10">
 
 <form method="post"> 
  
   <div class="row">
   <div class="col-sm-8"></div>
   <form action ="/" method="post">
-  <div class="col-sm-4"><div class="col-sm-2"><button type="submit" name="homebutton" value="home" class="btn btn-dark text-justify">Home</button></div>
-  </div>
+  <div class="col-sm-4">
+<div class="col-sm-2 "><button type="submit" name="homebutton" value="home" class="btn btn-dark text-justify">Home</button>
+</div>
+</div>
+</form>
   </form>
 
-  </form>
   <div class="container pb-4"></div>
-
-</div>
-</div>
-
-
-
+  </div>
 
 </body>
 </html> 
