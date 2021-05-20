@@ -13,7 +13,7 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 <h2>Tech Stacks Employed</h2>
 <p>Amazon Web Services EC2 - Ubuntu</p>
 <p>Amazon Web Services RD2 - mySQL</p>
-<p>Amazon Web Servies Https LB - load balanced</p>
+<p>Amazon Web Servies HTTP/HTTPS LB - load balancer</p>
 
 <h2>View the Entire Project in Action</h2>
 <p>It is best to open up both the server as well as the client along with the instructions to see the project in action.</p>
