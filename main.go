@@ -144,7 +144,7 @@ func main() {
 
 	currentTime := time.Now()
 
-	db, dbErr = sql.Open("mysql", "your_username:your_password@tcp(your_MYSQL_link_including_port)/your_db_name?charset=utf8")
+	db, dbErr = sql.Open("mysql", "newuser1:password@tcp(127.0.0.1:54779)/my_db?charset=utf8")
 
 	check(dbErr)
 	defer db.Close()
