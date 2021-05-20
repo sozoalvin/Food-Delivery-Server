@@ -3,6 +3,8 @@
 # Food Delivery REST API Backend Server
 Full REST API Backend Server System for Food Delivery Applications. Written in go/ golang with search, auto complete and suggestive search as well. The server also utilizes different flags that can be switced on and off, depending on environment settings and testing requirements.
 
+<img src = "https://i.imgur.com/XFUVxvV.png" width="700">
+
 <h2>Introduction</h2>
 
 <p>The KV app was created in an attempt to solve teething customer service issues that have been affecting customer’s average order values, customer satisfaction and ultimate customer loyalty.
@@ -13,7 +15,7 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 <p>Amazon Web Services RD2 - mySQL</p>
 <p>Amazon Web Servies Https LB - load balanced</p>
 
-<h2>How to view the entire project in action</h2>
+<h2>View the Entire Project in Action</h2>
 <p>It is best to open up both the server as well as the client along with the instructions to see the project in action.</p>
 <p>Click <a href="https://kvserver.sozoalvin.com">here</a> for the backend server</p>
 <p>Click <a href="https://kvclient.sozoalvin.com">here</a> for the client server</p>
