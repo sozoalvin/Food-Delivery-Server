@@ -20,9 +20,12 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 <p>Click <a href="https://kvserver.sozoalvin.com">here</a> for the backend server</p>
 <p>Click <a href="https://kvclient.sozoalvin.com">here</a> for the client server</p>
 
+<h2>Understand How RESTAPI works in the Project</h2>
+<p>Click<a href="https://github.com/sozoalvin/Food-Delivery-Server/blob/master/Instructions/Understanding_RESTAPI.pdf"> Here </a> to learn more about how RESTAPI was deployed on the backend server as well as the client's</p>
+
 <h2>Instructions on How to Use</h2>
 <h4>Click on image for a direct link to the instructions in PDF format.</h4>
-<a href="#"><img src="https://i.imgur.com/f8OZ7Mk.png" width="700"></a>
+<a href="https://github.com/sozoalvin/Food-Delivery-Server/blob/master/Instructions/Instructions%20on%20Navigating%20Backend%20Server%20KV%20Food%20Delivery%20Service.pdf"><img src="https://i.imgur.com/C9XIJuC.png" width="700"></a>
 
 <h2>Development Envirnonment</h2> 
 <p>For development purposes in your own environment, use the following command once you've in the working directory</p>
