@@ -45,11 +45,12 @@ func InitMyFoodList() *Trie {
 	return result
 }
 
-func (t *Trie) PreInsertTrie(u []string, ch chan string) {
+// func (t *Trie) PreInsertTrie(u []string, ch chan string) {
+func (t *Trie) PreInsertTrie(u []string) {
 	for _, v := range u {
 		t.Insert(v)
 	}
-	ch <- "Food List Search Auto Complete Database Updated"
+	// ch <- "Food List Search Auto Complete Database Updated"
 }
 
 func (t *Trie) Insert(w string) {
@@ -101,75 +102,12 @@ func (t *Trie) Insert(w string) {
 			break
 		}
 		charIndex := r[i] - 'a'
-		// fmt.Println("do u see this? ")
-		//fmt.Println("me", charIndex)
 		if currentNode.children[charIndex] == nil {
 			currentNode.children[charIndex] = &Node{}
 		}
 		currentNode = currentNode.children[charIndex] //currentNode.children is of *Node TYPE. in other words, it's pointining to the next node.
-		// assgining this; will SHIFT your current node's position.
 	}
 	currentNode.isEnd = true
-}
-
-func (t *Trie) InsertUser(w string) {
-
-	c := strings.ToLower(w)
-	wordLength := len(w)
-	r := []rune(c)                    //creates a rune based on c so we can change ASCII value
-	currentNode := t.root             //will always start from t.root
-	for i := 0; i < wordLength; i++ { //always check each interation according to the length of the word
-		switch r[i] {
-		case 32:
-			r[i] = 123
-			break
-		case 39:
-			r[i] = 124
-			break
-		case 45:
-			r[i] = 125
-			break
-		case 48: //represents value 0 on the keyboard
-			r[i] = 126
-			break
-		case 49: //represents value 1 on the keyboard
-			r[i] = 127
-			break
-		case 50: //represents value 2 on the keyboard
-			r[i] = 128
-			break
-		case 51: //represents value 3 on the keyboard
-			r[i] = 129
-			break
-		case 52: //represents value 4 on the keyboard
-			r[i] = 130
-			break
-		case 53: //represents value 5 on the keyboard
-			r[i] = 131
-			break
-		case 54: //represents value 6 on the keyboard
-			r[i] = 132
-			break
-		case 55: //represents value 7 on the keyboard
-			r[i] = 133
-			break
-		case 56: //represents value 8 on the keyboard
-			r[i] = 134
-			break
-		case 57: //represents value 9 on the keyboard
-			r[i] = 135
-			break
-		}
-		charIndex := r[i] - 'a'
-		// fmt.Println("me", charIndex)
-		if currentNode.children[charIndex] == nil {
-			currentNode.children[charIndex] = &Node{}
-		}
-		currentNode = currentNode.children[charIndex] //currentNode.children is of *Node TYPE. in other words, it's pointining to the next node.
-		// assgining this; will SHIFT your current node's position.
-	}
-	currentNode.isEnd = true
-	// ch <- "Userdata base completed"
 }
 
 func (t *Trie) Search(w string) bool {
@@ -278,12 +216,6 @@ func (bst *BST) insertNode(t **BinaryNode, v int) error {
 		bst.insertNode(&((*t).right), v)
 	}
 	return nil
-}
-
-func (bst *BST) PreInsertPostalCode() {
-	for _, v := range V {
-		bst.insertNode(&bst.root, v.PostalCode)
-	}
 }
 
 func (bst *BST) searchNode(t *BinaryNode, v int) *BinaryNode {
@@ -398,13 +330,10 @@ func (t *Trie) GetSuggestion(query string, total int) []string { //edit
 func Suggestion(prefix string, wordList []string, repeat int, currentNode *Node) (int, []string) { //edit
 
 	if isLastNode(currentNode) { //if there are children nodes
-
 		if currentNode.isEnd && len(wordList) < 1 { //your current word can be an end; and it can also point to other children
 			wordList = append(wordList, prefix)
 		}
-
 		return repeat, wordList
-
 	}
 
 	for i := 0; i < 39; i++ {
@@ -421,12 +350,9 @@ func Suggestion(prefix string, wordList []string, repeat int, currentNode *Node)
 				wordList = append(wordList, prefix)
 				repeat--
 			}
-
 			repeat, wordList = Suggestion(prefix, wordList, repeat, nt)
-
 			prefix = prefix[0 : len(prefix)-1]
 		}
-
 	}
 
 	return repeat, wordList
@@ -440,15 +366,12 @@ func isLastNode(nextNode *Node) bool { //this function checks for his friends.
 			return false
 		}
 	}
-
 	return true
-
 }
 
 func ConvItoS(i int) string {
 
 	array := [39]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " ", "'", "-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
-
 	return array[i]
 
 }

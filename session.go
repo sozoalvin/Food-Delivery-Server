@@ -33,16 +33,13 @@ func getUser(w http.ResponseWriter, req *http.Request) string {
 
 	check(err)
 	defer rows.Close()
-
 	for rows.Next() {
 		err = rows.Scan(&username)
 		check(err)
 	}
 
 	if username != "" { //means the user is actually logged in
-
 		updateUserLastTiming(username)
-
 		return username
 
 	} else {
@@ -64,7 +61,6 @@ func alreadyLoggedIn(w http.ResponseWriter, req *http.Request) bool { //checks i
 	} else {
 		return true
 	}
-
 }
 
 func cleanSessions() {

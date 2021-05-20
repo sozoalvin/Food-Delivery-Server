@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"flag"
 	"fmt"
 	"net/http"
 	"sync"
@@ -9,9 +10,13 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
+	"golang.org/x/crypto/acme/autocert"
 )
 
-var MyFoodListDB = InitMyFoodList()
+var countpid int = 1
+
+var MyFoodListDB = InitMyFoodList() //creates the trie required to power the
 var TransID int = 0
 var QueueID int = 500
 var pid int = 0
@@ -23,6 +28,11 @@ var searchResult2 []searchResultFormat
 var mutex sync.Mutex
 
 var db *sql.DB
+
+var (
+	domain        string
+	productionFlg bool = false
+)
 
 type user struct {
 	Username        string
@@ -36,6 +46,11 @@ type user struct {
 type searchResultFormat struct {
 	FoodName string
 	PID      string
+}
+
+type MerchantFoodInfo struct {
+	FoodName string
+	Price    string
 }
 
 type cartDisplay struct {
@@ -121,47 +136,81 @@ func init() {
 
 func main() {
 
-	ch := make(chan string) //create a channel called c
 	var dbErr error
+
+	flag.StringVar(&domain, "domain", "", "domain name to request your certificate")
+	flag.BoolVar(&productionFlg, "productionFlg", false, "if true, we start HTTPS server")
+	flag.Parse()
 
 	currentTime := time.Now()
 
-	go CreateFoodList(ch) //newResult is a slice that is being returned byCreateFoodList function
-	fmt.Println("\nSystem Message :", <-ch)
-	go CreateFoodListMap(ch)
-	go MyFoodListDB.PreInsertTrie(FoodMerchantNameAddress, ch) //populates Trie Data for Food LIst
-	fmt.Println("System Message :", <-ch)
-	fmt.Println("System Message :", <-ch)
-	myPostalCodesDB := InitPostalCode()   //creates PostalCode BST DB
-	myPostalCodesDB.PreInsertPostalCode() //preinset POSTAL Code DB
-	FoodMerchantNameAddressProductID()
-	fmt.Println("System Message : System is Ready", currentTime.Format("2006-01-02 15:04:05"))
-
-	db, dbErr = sql.Open("mysql", "insert_SQL Data here")
+	db, dbErr = sql.Open("mysql", "your_username:your_password@tcp(your_MYSQL_link_including_port)/your_db_name?charset=utf8")
 
 	check(dbErr)
 	defer db.Close()
 	dbErr = db.Ping()
 	check(dbErr)
 
-	http.HandleFunc("/", index)
-	http.HandleFunc("/signup", signup)
-	http.HandleFunc("/login", login)
-	http.HandleFunc("/logout", logout)
-	http.HandleFunc("/userprofile", userprofile)
-	http.HandleFunc("/assets/rs2.png", rs2)
-	http.HandleFunc("/searchresult", searchresult)
-	http.HandleFunc("/yourcart", yourcart)
-	http.HandleFunc("/checkout_processing", checkout_processing)
-	http.HandleFunc("/checkout", checkout)
-	http.HandleFunc("/allsystemorders", allsystemorders)
-	http.HandleFunc("/alltransactions", alltransactions)
-	http.HandleFunc("/login_redirect", login_redirect)
-	http.HandleFunc("/dispatchdriver", dispatchdriver)
-	http.HandleFunc("/clearcart", clearcart)
-	http.HandleFunc("/allthefoodisgone", allthefoodisgone)
-	http.Handle("/favicon.ico", http.NotFoundHandler()) //NotFoundHandler returns a simple request handler that replies to each request with a “404 page not found” reply.
-	http.ListenAndServe(":80", nil)                     //launches HTTP server
+	fmt.Println("System Message : System is Ready", currentTime.Format("2006-01-02 15:04:05"))
+
+	router := mux.NewRouter()
+	router.HandleFunc("/", index)
+	router.HandleFunc("/signup", signup)
+	router.HandleFunc("/login", login)
+	router.HandleFunc("/logout", logout)
+	router.HandleFunc("/userprofile", userprofile)
+	router.HandleFunc("/assets/rs2.png", rs2)
+	router.HandleFunc("/assets/rs3.png", rs3)
+	router.HandleFunc("/assets/rs4.png", rs4)
+	router.HandleFunc("/assets/rs5.png", rs5)
+	router.HandleFunc("/assets/rs6.png", rs6)
+	router.HandleFunc("/assets/rs7.png", rs7)
+	router.HandleFunc("/assets/rs8.png", rs8)
+	router.HandleFunc("/assets/login.png", loginbutton)
+	router.HandleFunc("/assets/signup.png", signupbutton)
+	router.HandleFunc("/searchresult", searchresult)
+	router.HandleFunc("/yourcart", yourcart)
+	router.HandleFunc("/checkout_processing", checkout_processing)
+	router.HandleFunc("/checkout", checkout)
+	router.HandleFunc("/allsystemorders", allsystemorders)
+	router.HandleFunc("/alltransactions", alltransactions)
+	router.HandleFunc("/login_redirect", login_redirect)
+	router.HandleFunc("/dispatchdriver", dispatchdriver)
+	router.HandleFunc("/clearcart", clearcart)
+	router.HandleFunc("/allthefoodisgone", allthefoodisgone)
+	router.HandleFunc("/api/v1/apivalidation", apiValidation).Methods("Get")
+	router.HandleFunc("/api/v1/nameaddress", nameAddress).Methods("Get")
+	router.HandleFunc("/api/v1/retrieveall", retrieveAll).Methods("Get")
+	router.HandleFunc("/api/v1/additems", additems).Methods("Post")
+	router.HandleFunc("/api/v1/merchantsetup", merchantsetup).Methods("Post")
+	router.HandleFunc("/api/v1/edititems", editItems).Methods("Put")
+	router.HandleFunc("/api/v1/deleteitems", deleteItems).Methods("Delete")
+	router.Handle("/favicon.ico", http.NotFoundHandler()) //NotFoundHandler returns a simple request handler that replies to each request with a “404 page not found” reply.
+	router.HandleFunc("/sample", sample)
+
+	if productionFlg {
+		certManager := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist(domain),
+			Cache:      autocert.DirCache("certs"),
+		}
+		tlsConfig := certManager.TLSConfig()
+		tlsConfig.GetCertificate = getSelfSignedOrLetsEncryptCert(&certManager)
+		server := http.Server{
+			Addr:      ":443",
+			Handler:   router,
+			TLSConfig: tlsConfig,
+		}
+
+		go http.ListenAndServe(":80", certManager.HTTPHandler(nil))
+		fmt.Println("Server listening on", server.Addr)
+		if err := server.ListenAndServeTLS("", ""); err != nil {
+			fmt.Println(err)
+		}
+	} else {
+		fmt.Println("ProductionFlg activated\nServer listening on :80")
+		http.ListenAndServe(":80", router)
+	}
 
 } // close main functioin
 

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html"
+	"io/ioutil"
 	"net/http"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	uuid "github.com/satori/go.uuid"
@@ -16,6 +19,13 @@ func index(w http.ResponseWriter, req *http.Request) {
 
 	u := getUser(w, req)
 
+	//don't waste resouces indexing if user is not logged in
+	if u != "" {
+		createFoodList()
+		go MyFoodListDB.PreInsertTrie(FoodMerchantBrandNames) //populates Trie Data for Food LIst
+
+	}
+
 	if req.Method == http.MethodPost {
 		searchKW := req.FormValue("searchtext")
 
@@ -25,9 +35,9 @@ func index(w http.ResponseWriter, req *http.Request) {
 		}
 
 		sr := html.EscapeString(searchKW)
-
-		updateUserLastSearch(sr, u)
-		insertUserSearchLogs(sr, u)
+		srtL := strings.ToLower((sr))
+		updateUserLastSearch(srtL, u)
+		insertUserSearchLogs(srtL, u)
 
 		http.Redirect(w, req, "/searchresult", http.StatusSeeOther)
 	}
@@ -95,14 +105,15 @@ func signup(w http.ResponseWriter, req *http.Request) {
 
 		insertSessionsDB(un, c.Value)
 
-		// store user in dbUsers
+		userApiKey := generateApiKey(c.Value)
+
 		bs, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.MinCost)
 		if err != nil {
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 			return
 		}
 
-		insertUsersDB(un, bs, f, l, r)
+		insertUsersDB(un, bs, f, l, r, userApiKey)
 
 		http.Redirect(w, req, "/", http.StatusSeeOther) //once logged in, redirect to where you want the user to be redirected to
 		return
@@ -121,7 +132,6 @@ func login(w http.ResponseWriter, req *http.Request) {
 	var me = make(map[string]string) //make map for error
 	rx := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
-	// process form submission
 	if req.Method == http.MethodPost {
 
 		unUnsanitized := req.FormValue("username") //the 'name' of the field
@@ -200,6 +210,37 @@ func rs2(w http.ResponseWriter, req *http.Request) {
 	http.ServeFile(w, req, "assets/rs2.png")
 }
 
+func rs3(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/rs3.png")
+}
+
+func rs4(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/rs4.png")
+}
+
+func rs5(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/rs5.png")
+}
+
+func rs6(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/rs6.png")
+}
+
+func rs7(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/rs7.png")
+}
+func rs8(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/rs8.png")
+}
+
+func loginbutton(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/login.png")
+}
+
+func signupbutton(w http.ResponseWriter, req *http.Request) {
+	http.ServeFile(w, req, "assets/signup.png")
+}
+
 func searchresult(w http.ResponseWriter, req *http.Request) {
 
 	u := getUser(w, req) //getUser function call
@@ -207,13 +248,16 @@ func searchresult(w http.ResponseWriter, req *http.Request) {
 	var localSlice = []searchResultFormat{}
 
 	lastSearchTerm := queryUserLastSearchTerm(u)
+	// fmt.Println("debug, lastSearchTerm:", lastSearchTerm)
 
 	localSearchResult := MyFoodListDB.GetSuggestion(lastSearchTerm, 50) // you will always append a global variable so you pass data this way.
 
+	fmt.Printf("\nSearched Term: %s. Numer of search results geenrated: %d\n", lastSearchTerm, len(localSearchResult))
 	for _, v := range localSearchResult { //range through all available data in the slice
 
-		valuepair := foodNameAddresstoID[v]
-		localSlice = append(localSlice, searchResultFormat{v, valuepair}) //everytime a new item is added into cart, this gets appended
+		foodName, merchantName := retriFoodMerchantName(v)
+		valuepair := retrivePIDvalue(foodName, merchantName)
+		localSlice = append(localSlice, searchResultFormat{toTitle(v), valuepair}) //everytime a new item is added into cart, this gets appended
 	}
 
 	if req.Method == http.MethodPost {
@@ -224,6 +268,7 @@ func searchresult(w http.ResponseWriter, req *http.Request) {
 		if err != nil || intQuantity <= 0 {
 			intQuantity = 1 //if error, we default quantity to 1.
 		}
+		fmt.Println("debug atc button", u, productid, intQuantity)
 		insertItemIntoCart(u, productid, intQuantity)
 
 		http.Redirect(w, req, "/yourcart", http.StatusSeeOther)
@@ -290,16 +335,19 @@ func yourcart(w http.ResponseWriter, req *http.Request) {
 			}
 			deletePreviousConfirmation(u)
 
-			checkoutConfirm(u, pi)
+			// checkoutConfirm(u, pi)
+			checkoutConfirm(u, generatedSysQueueID, pi)
 
 			insertCheckoutItemsSysIDDB(u, generatedSysQueueID, pi)
+
+			clearCart(u)
 
 			http.Redirect(w, req, "/checkout_processing", http.StatusSeeOther)
 			return
 		}
 	}
 
-	localCartDisplay = queryCartItems(u)
+	localCartDisplay = queryCartItems2(u)
 
 	parseData := struct {
 		U    string
@@ -547,21 +595,35 @@ func userprofile(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// var u user
+	apiKey := retrieveUserApiKey(u)
 
 	var me = make(map[string]string) //make map for error
 
 	parseData := struct {
-		U    string
-		Data map[string]string
+		U      string
+		Data   map[string]string
+		APIkey string
 	}{
-		u, me,
+		u, me, apiKey,
 	}
 
 	if req.Method == http.MethodPost {
 
 		// get form values
+		ra := req.FormValue("regenerateAPIKey")
 		rb := req.FormValue("updatePassword")
+
+		_ = ra
+
+		if ra == "regenerateAPIKey" {
+
+			userApiKey := reGenerateApiKey()
+			updateApiKeyUsersDB(u, userApiKey)
+
+			http.Redirect(w, req, "/userprofile", http.StatusSeeOther)
+			return
+		}
+
 		if rb == "updatePassword" {
 			po := req.FormValue("passwordOld")
 			pn := req.FormValue("passwordNew")
@@ -654,6 +716,270 @@ func sample(w http.ResponseWriter, req *http.Request) {
 
 	}
 
-	tpl.ExecuteTemplate(w, "sample.gohtml", parseData)
+	tpl.ExecuteTemplate(w, "sample.html", parseData)
+
+}
+
+func apiValidation(w http.ResponseWriter, req *http.Request) {
+
+	//query if API key is correct
+	v := req.URL.Query()
+
+	if validateAPIkey(v["api"][0]) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Server Response: API Key Validation Successful"))
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Server Response: API Key Does Not Exist. API Key Validation failed"))
+	}
+
+}
+
+func nameAddress(w http.ResponseWriter, req *http.Request) {
+
+	//query if API key is correct
+	v := req.URL.Query()
+	if validateAPIkey(v["api"][0]) {
+
+		username := retriAPIUsername(v["api"][0])
+		merchantName, address := retriMercInfoAPI(username)
+		parseData := struct {
+			MerchantName string
+			Address      string
+		}{
+			merchantName, address,
+		}
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(parseData)
+
+		// w.Write([]byte("API key exists!"))
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("API key does not exist. Please follow the instructions below"))
+	}
+
+}
+
+func additems(w http.ResponseWriter, req *http.Request) {
+	//query if API key is correct
+
+	type verifyData struct {
+		Foodname string
+		Price    string
+	}
+
+	var data verifyData
+
+	v := req.URL.Query()
+	if validateAPIkey(v["api"][0]) {
+
+		username := retriAPIUsername(v["api"][0])
+
+		if req.Method == "POST" {
+			reqBody, err := ioutil.ReadAll(req.Body)
+			if err != nil {
+				fmt.Println("The request body cannot be read", err)
+			} else {
+				json.Unmarshal(reqBody, &data)
+
+				if checkifFoodExists(username, data.Foodname) {
+					w.WriteHeader(http.StatusNoContent)
+
+				} else {
+					addNewFoodItems(username, data.Foodname, data.Price)
+					w.WriteHeader(http.StatusCreated)
+					w.Write([]byte("Your new food item has been created succesfully and is pending for approval."))
+				}
+			}
+		}
+
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("API key does not exist. Please follow the instructions below"))
+	}
+
+}
+
+func retrieveAll(w http.ResponseWriter, req *http.Request) {
+
+	//query if API key is correct
+	v := req.URL.Query()
+	if validateAPIkey(v["api"][0]) {
+
+		username := retriAPIUsername(v["api"][0])
+		merchantName, address := retriMercInfoAPI(username)
+
+		allFoodItems := retriMerchFooditems(username)
+		parseData := struct {
+			MerchantName string
+			Address      string
+			FoodInfo     []MerchantFoodInfo
+		}{
+			merchantName, address, allFoodItems,
+		}
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(parseData)
+
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("API key does not exist. Please follow the instructions below"))
+	}
+
+}
+
+func editItems(w http.ResponseWriter, req *http.Request) {
+
+	type verifyData struct {
+		OldFoodname string
+		NewFoodname string
+		Price       string
+	}
+
+	var data verifyData
+
+	v := req.URL.Query()
+	if validateAPIkey(v["api"][0]) {
+
+		username := retriAPIUsername(v["api"][0])
+
+		if req.Method == "PUT" {
+			// read the string sent to the service
+			reqBody, err := ioutil.ReadAll(req.Body)
+			if err == nil {
+				// convert JSON to object
+				err := json.Unmarshal(reqBody, &data)
+				if err != nil {
+					w.WriteHeader(http.StatusNoContent)
+					fmt.Println("There was an error unmarshalling the json data", err)
+				} else {
+
+					up := retrieveFoodNameAndPriceDB(username, data.OldFoodname)
+					if data.Price == "" {
+						data.Price = up
+					}
+
+					if data.OldFoodname == data.NewFoodname && data.Price == up {
+						w.WriteHeader(http.StatusOK)
+						w.Write([]byte("There were no changes detected."))
+
+					} else if data.OldFoodname == data.NewFoodname && data.Price != up {
+						updatePriceofItem(data.OldFoodname, data.Price, username)
+						w.WriteHeader(http.StatusOK)
+						w.Write([]byte("The price of your menu item has been updated successfully"))
+					} else if data.OldFoodname != data.NewFoodname && data.Price == up {
+						updateNameofItem(data.OldFoodname, data.NewFoodname, username)
+						w.WriteHeader(http.StatusOK)
+						w.Write([]byte("Your menu item's name has been udpated succesfully"))
+					} else if data.OldFoodname != data.NewFoodname && data.Price != up {
+						updateNamePriceofItem(data.OldFoodname, data.NewFoodname, data.Price, username)
+						w.WriteHeader(http.StatusOK)
+						w.Write([]byte("Both your menu's item name as well as the price has been updated"))
+					}
+
+				}
+
+			} else {
+				fmt.Println("There was an error reading the request body", err)
+			}
+
+		} else {
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte("API key does not exist. Please follow the instructions below"))
+		}
+
+	}
+
+}
+
+func deleteItems(w http.ResponseWriter, req *http.Request) {
+
+	var data string
+	var nullstring []string
+
+	v := req.URL.Query()
+	if validateAPIkey(v["api"][0]) {
+
+		username := retriAPIUsername(v["api"][0])
+
+		if req.Method == "DELETE" {
+			// read the string sent to the service
+			reqBody, err := ioutil.ReadAll(req.Body)
+			if err == nil {
+				// convert JSON to object
+				err := json.Unmarshal(reqBody, &data)
+				if err != nil {
+					w.WriteHeader(http.StatusNoContent)
+					fmt.Println("There was an error unmarshalling the json data", err)
+				} else {
+
+					amendFoodListDB("delete", "", username, data, nullstring) //s2 is username
+					w.WriteHeader(http.StatusOK)
+					w.Write([]byte("The food menu item has been succesfully deleted"))
+
+				}
+
+			} else {
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte("We are unable to delete your items at the moment. Please try again later. If the issue continues, please contact KV customer service."))
+				fmt.Println("There was an error reading the request body", err)
+
+			}
+
+		}
+	}
+}
+
+func merchantsetup(w http.ResponseWriter, req *http.Request) {
+	//query if API key is correct
+
+	type verifyData struct {
+		MerchantName     string
+		DetailedLocation string
+		PostalCode       string
+		MonWH            string
+		TuesWH           string
+		WedWH            string
+		ThursWH          string
+		FriWH            string
+		SatWH            string
+		SunWH            string
+		PhWH             string
+		Cot              string
+	}
+
+	var data verifyData
+
+	v := req.URL.Query()
+	if validateAPIkey(v["api"][0]) {
+
+		username := retriAPIUsername(v["api"][0])
+
+		if req.Method == "POST" {
+			reqBody, err := ioutil.ReadAll(req.Body)
+			if err != nil {
+				fmt.Println("The request body cannot be read", err)
+			} else {
+				err := json.Unmarshal(reqBody, &data)
+
+				if err != nil {
+					fmt.Println("There was an error unmarshing the json into the system ")
+					w.WriteHeader(http.StatusInternalServerError)
+					w.Write([]byte("There is an error with your request. Please try again shortly"))
+				} else {
+
+					insertMerchantInformationDB(username, data.MerchantName, data.DetailedLocation, data.PostalCode, data.MonWH, data.TuesWH, data.WedWH, data.ThursWH, data.FriWH, data.SatWH, data.SunWH, data.PhWH, data.Cot)
+					w.WriteHeader(http.StatusCreated)
+					w.Write([]byte("Your Merchant Account has been succesfully updated. You may now proceed to add, edit or delete food items."))
+				}
+
+			}
+		}
+
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("API key does not exist. Please follow the instructions below"))
+	}
 
 }
