@@ -17,7 +17,7 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 
 <h2>Tech Stacks Employed</h2>
 <p>Amazon Web Services EC2 - Ubuntu</p>
-<p>Amazon Web Services RD2 - mySQL</p>
+<p>Amazon Web Services RDS - mySQL</p>
 <p>Amazon Web Servies HTTP/HTTPS LB - load balancer</p>
 
 <h2>Understand How RESTAPI works in the Project</h2>
