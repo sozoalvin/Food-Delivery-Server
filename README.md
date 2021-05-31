@@ -57,7 +57,7 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 <img src = "https://i.imgur.com/ojn0LQ4.png" width="700">
 
 <h2>API Documentation Now Made Available</h2>
-<p>Click <a href="https://kvserver.com/apireference" target="_blank">here</a> for a direct link to view the KVFood Server Documentation</p>
+<p>Click <a href="https://kvserver.sozoalvin.com/apireference" target="_blank">here</a> for a direct link to view the KVFood Server Documentation</p>
 <a href="https://kvserver.sozoalvin.com/apireference" target="_blank"><img src = "https://i.imgur.com/rCJSBtr.png" width="700"></a>
 <br>
 <a href="https://kvserver.sozoalvin.com/apireference" target="_blank"><img src = "https://i.imgur.com/gRHXitO.png" width="700"></a>
