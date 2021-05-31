@@ -6,9 +6,9 @@ Full REST API Backend Server System for Food Delivery Applications. Written in g
 <img src = "https://i.imgur.com/XFUVxvV.png" width="700">
 
 <h2>View the Entire Project in Action</h2>
-<p>It is best to open up both the server as well as the client along with the instructions to see the project in action.</p>
-<p>Click <a href="https://kvserver.sozoalvin.com">Here</a> for the Backend Server</p>
-<p>Click <a href="https://kvclient.sozoalvin.com">Here</a> for the Client Server</p>
+<p>It is best to open up both clients with the instructions to see the project in action.</p>
+<p>Click <a href="https://kvserver.sozoalvin.com">Here</a> for the regular Client that contains the codes for the Backend Server</p>
+<p>Click <a href="https://kvclient.sozoalvin.com">Here</a> for the Client that Food Merchants use to communicate with the Server through REST APIs</p>
 
 <h2>Introduction</h2>
 

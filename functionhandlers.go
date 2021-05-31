@@ -252,7 +252,7 @@ func searchresult(w http.ResponseWriter, req *http.Request) {
 
 	localSearchResult := MyFoodListDB.GetSuggestion(lastSearchTerm, 50) // you will always append a global variable so you pass data this way.
 
-	fmt.Printf("\nSearched Term: %s. Numer of search results geenrated: %d\n", lastSearchTerm, len(localSearchResult))
+	fmt.Printf("\nSearched Term: %s. Numer of search results generated: %d\n", lastSearchTerm, len(localSearchResult))
 	for _, v := range localSearchResult { //range through all available data in the slice
 
 		foodName, merchantName := retriFoodMerchantName(v)
@@ -981,5 +981,89 @@ func merchantsetup(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("API key does not exist. Please follow the instructions below"))
 	}
+
+}
+
+func apiReference(w http.ResponseWriter, req *http.Request) {
+
+	u := getUser(w, req)
+
+	// //don't waste resouces indexing if user is not logged in
+	// if u != "" {
+	// 	createFoodList()
+	// 	go MyFoodListDB.PreInsertTrie(FoodMerchantBrandNames) //populates Trie Data for Food LIst
+
+	// }
+
+	// if req.Method == http.MethodPost {
+	// 	searchKW := req.FormValue("searchtext")
+
+	// 	if u == "" { //no username present!
+	// 		http.Redirect(w, req, "/login_redirect", http.StatusSeeOther)
+	// 		return
+	// 	}
+
+	// 	sr := html.EscapeString(searchKW)
+	// 	srtL := strings.ToLower((sr))
+	// 	updateUserLastSearch(srtL, u)
+	// 	insertUserSearchLogs(srtL, u)
+
+	// 	http.Redirect(w, req, "/searchresult", http.StatusSeeOther)
+	// }
+
+	parseData := struct {
+		U    string
+		Data string
+	}{
+		u, "",
+	}
+
+	showSessions() // for demonstration purposes
+	tpl.ExecuteTemplate(w, "apireference.gohtml", parseData)
+}
+
+func searchresult_2(w http.ResponseWriter, req *http.Request) {
+
+	u := getUser(w, req) //getUser function call
+
+	var localSlice = []searchResultFormat{}
+
+	lastSearchTerm := queryUserLastSearchTerm(u)
+	// fmt.Println("debug, lastSearchTerm:", lastSearchTerm)
+
+	localSearchResult := MyFoodListDB.GetSuggestion(lastSearchTerm, 50) // you will always append a global variable so you pass data this way.
+
+	fmt.Printf("\nSearched Term: %s. Numer of search results generated: %d\n", lastSearchTerm, len(localSearchResult))
+	for _, v := range localSearchResult { //range through all available data in the slice
+
+		foodName, merchantName := retriFoodMerchantName(v)
+		valuepair := retrivePIDvalue(foodName, merchantName)
+		localSlice = append(localSlice, searchResultFormat{toTitle(v), valuepair}) //everytime a new item is added into cart, this gets appended
+	}
+
+	if req.Method == http.MethodPost {
+		productid := req.FormValue("pid") //pid is also known as the productID
+		quantity1 := req.FormValue("quantity")
+
+		intQuantity, err := strconv.Atoi(quantity1)
+		if err != nil || intQuantity <= 0 {
+			intQuantity = 1 //if error, we default quantity to 1.
+		}
+		fmt.Println("debug atc button", u, productid, intQuantity)
+		insertItemIntoCart(u, productid, intQuantity)
+
+		http.Redirect(w, req, "/yourcart", http.StatusSeeOther)
+	}
+
+	showSessions() // for demonstration purposes
+
+	parseData := struct {
+		U    string
+		Data []searchResultFormat
+	}{
+		u, localSlice,
+	}
+
+	tpl.ExecuteTemplate(w, "searchresult_2.gohtml", parseData)
 
 }

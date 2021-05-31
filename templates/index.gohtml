@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>KV Food Delivery</title>
@@ -10,9 +10,21 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   
   <style type="text/css">
+
+
+  html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+
    body { background: #FFCC00 !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 <link rel="stylesheet" href="assets/styles.css">
-
 
 </style>
 
@@ -35,7 +47,7 @@
 
 <div class="container pb-5"></div> 
 <div class="container bg-light ml-10 mr-10 rounded-lg shadow-sm pt-2 pl-5 pr-6 mb-3 bg-white">
-<dv class="container">
+<div class="container">
 <h3>What Are You Craving For Today?</h3>
 
 <form method="post"> 
@@ -50,12 +62,12 @@
 
 </form>
 
-</div>
+</div></div>
 
-</div>
-</div>
+
 
 <div class="container pb-4"></div>
+
 
 </body>
 

@@ -144,8 +144,6 @@ func main() {
 
 	currentTime := time.Now()
 
-	db, dbErr = sql.Open("mysql", "newuser1:password@tcp(127.0.0.1:54779)/my_db?charset=utf8")
-
 	check(dbErr)
 	defer db.Close()
 	dbErr = db.Ping()
@@ -169,6 +167,7 @@ func main() {
 	router.HandleFunc("/assets/login.png", loginbutton)
 	router.HandleFunc("/assets/signup.png", signupbutton)
 	router.HandleFunc("/searchresult", searchresult)
+	router.HandleFunc("/searchresult_2", searchresult_2)
 	router.HandleFunc("/yourcart", yourcart)
 	router.HandleFunc("/checkout_processing", checkout_processing)
 	router.HandleFunc("/checkout", checkout)
@@ -187,6 +186,7 @@ func main() {
 	router.HandleFunc("/api/v1/deleteitems", deleteItems).Methods("Delete")
 	router.Handle("/favicon.ico", http.NotFoundHandler()) //NotFoundHandler returns a simple request handler that replies to each request with a “404 page not found” reply.
 	router.HandleFunc("/sample", sample)
+	router.HandleFunc("/apireference", apiReference)
 
 	if productionFlg {
 		certManager := autocert.Manager{
