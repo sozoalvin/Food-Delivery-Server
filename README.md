@@ -5,6 +5,11 @@ Full REST API Backend Server System for Food Delivery Applications. Written in g
 
 <img src = "https://i.imgur.com/XFUVxvV.png" width="700">
 
+<h2>View the Entire Project in Action</h2>
+<p>It is best to open up both the server as well as the client along with the instructions to see the project in action.</p>
+<p>Click <a href="https://kvserver.sozoalvin.com">Here</a> for the Backend Server</p>
+<p>Click <a href="https://kvclient.sozoalvin.com">Here</a> for the Client Server</p>
+
 <h2>Introduction</h2>
 
 <p>The KV app was created in an attempt to solve teething customer service issues that have been affecting customer’s average order values, customer satisfaction and ultimate customer loyalty.
@@ -12,17 +17,15 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 
 <h2>Tech Stacks Employed</h2>
 <p>Amazon Web Services EC2 - Ubuntu</p>
-<p>Amazon Web Services RD2 - mySQL</p>
-<p>Amazon Web Servies Https LB - load balanced</p>
+<p>Amazon Web Services RDS - mySQL</p>
+<p>Amazon Web Servies HTTP/HTTPS LB - load balancer</p>
 
-<h2>View the Entire Project in Action</h2>
-<p>It is best to open up both the server as well as the client along with the instructions to see the project in action.</p>
-<p>Click <a href="https://kvserver.sozoalvin.com">here</a> for the backend server</p>
-<p>Click <a href="https://kvclient.sozoalvin.com">here</a> for the client server</p>
+<h2>Understand How RESTAPI works in the Project</h2>
+<p>Click<a href="https://github.com/sozoalvin/Food-Delivery-Server/blob/master/Instructions/Understanding_RESTAPI.pdf"> Here </a> to learn more about how RESTAPI was deployed on the backend server as well as the client's</p>
 
 <h2>Instructions on How to Use</h2>
 <h4>Click on image for a direct link to the instructions in PDF format.</h4>
-<a href="#"><img src="https://i.imgur.com/f8OZ7Mk.png" width="700"></a>
+<a href="https://github.com/sozoalvin/Food-Delivery-Server/blob/master/Instructions/Instructions%20on%20Navigating%20Backend%20Server%20KV%20Food%20Delivery%20Service.pdf"><img src="https://i.imgur.com/C9XIJuC.png" width="700"></a>
 
 <h2>Development Envirnonment</h2> 
 <p>For development purposes in your own environment, use the following command once you've in the working directory</p>
