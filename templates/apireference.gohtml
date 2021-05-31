@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User Profile</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  <style type="text/css">
+   body { background: #FFCC00 !important; } 
+</style>
+
+</head>
+<body>
+
+{{template "new-navbar" .}}
+
+{{/* <div class="container maincontainerindex">
+  <div class="row mt-5">
+    <div class="col-sm"></div>
+    <div class="col-sm shadow-lg"><img src="https://i.ibb.co/C8QV3cQ/tom-yum-nodots.png"></div>
+    <div class="col-sm"></div>
+  </div>
+</div> */}}
+
+<div class="container pb-5"></div> 
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-1 pb-1 pl-4 mb-3 bg-white rounded">
+<div class="container p-1">
+<h3>KVFOOD API Reference</h3>
+<p>The KVFood API is organized around REST. Our API accepts JSON encooded rqeuest bodies and returns JSON encoded responses and uses standard HTTP responses codes. A typical response should include a response header and a response body (HTTP 204 will not include a response body).
+</p>
+</div></div>
+
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
+
+<h4>Authenticating your KV Food API</h4>
+<p>The KVFood REST Server uses an API key to validate your requests. You can view and manage your API keys in your account settings. Please note that only one set of API key can be active to any user account. i.e. A newly generated API key will immediately render a previously generated API key useless.
+</p>
+<h5>1. Head over to https://kvserver.sozoalvin.com</h5>
+<p>Click Log in on the top level menu or sign up if you don't have an account with us</p>
+
+<h5>2. Navigate to "Your Account"</h5>
+<p>Click Log in on the top level menu</p>
+
+<h5>3. Copy and Validate your API key</h5>
+<p>Crt+V (Windows) or Cmd+V (Mac) to paste in your API Key and click Validate</p>
+
+<h5>4. Set up Your Merchant Account</h5>
+<p>Navigate to Merchant Setup at the top menu to update your brand's information</p>
+
+</div>
+
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
+
+<h4>Quick Start Guide on https://kvclient.sozoalvin.com</h4>
+<p>If you are not a developer, you can use the KVclient to send automated requests using the client's interface. The default KVClient can be accessed using a modern internet browser such as Chrome and Safari.
+<br><br>If you are a developer, you can use the other sections below to help you design your API requests.</p>
+
+<h5>1. Add a Food Menu items</h5>
+<p>Using the Add Items top menu will allow you to add any items you like to your merchants's page. Please not that inappropriate used on dish names' will be removed without notice. </p>
+
+<h5>2. Editing a Food Menu item</h5>
+<p>Editing an existing food menu tied to your merchant account is available thruogh the edit option. You can make amendmends to the dish's name, the price, or even both at the same time.</p>
+
+<h5>3. Deleting a Food Menu item</h5>
+<p>Deleting something on https://kvclient.sozoalvin.com is permanent. You can use the Delete Item top menu item to remove menu items tied to your merchant's account</p>
+
+<h5>4. Browse Your Entire Catalog</h5>
+<p>You can see all your existing menu items by using the Check Records found at the top menu</p>
+
+</div>
+
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
+
+<h4>API Request Errors</h4>
+<p>As KVFood's API system is build around REST and uses standard HTTP headers as responses, you should also receive standard responses on your end. <br><br>A HTTP status in the <samp>2xx</samp> range generally means the request is successful and should be accompanied with a response body that includes more details (except for <samp>HTTP 201</samp>). 
+Responses headers in <samp>4xx</samp> range will have an accompanying response body that will include details such as missing and invalid arguments etc. <br><br>
+While uncommon, an error in the HTTP status of <samp>5xx</samp> range will indicate a KVFood server error. Please attempt to send the request again shortly and if the problem persists, please contact us immediately.
+</p>
+
+</div>
+
+
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
+
+<h4>Types of Requests</h4>
+<p>The KVFOOD REST Server only accepts following types of request. Please ensure that your request has the correct accompanying HTTP request types or the server will not be able to handle your requests correctly. 
+To view example request codes, please see the next section.
+</p>
+<h5>1. [GET]</h5>
+<p>Use the <i>GET</i> request method if you would like the KVFood REST server to return a value you are trying to retrieve. e.g. Using the get request to check if your API key is a valid one</p>
+
+<h5>2. [POST]</h5>
+<p>Use the <i>POST</i> request method if you want add a new menu item to your merchant's account</p>
+
+<h5>3. [PUT]</h5>
+<p>Use the <i>PUT</i> request method when you want to make changes to your existing menu items tied to your merchant's account</p>
+
+<h5>4. [DELETE]</h5>
+<p>The <i>DELETE</i> request method should only be employed when you need the server to delete/remove something</p>
+
+</div>
+
+<div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
+
+<h4>Requests Examples</h4>
+<p>This section serves as a reference to how requests <i>query strings</i> should be sent to the KVFood REST server in order for you to receive valid responses.
+</p>
+<h5>API Validation</h5>
+<p class="query-strings">Please send API validation as <i>GET</i> requests only.
+<br><samp>https://kvserver.sozoalvin.com/api/v1/nameaddress?api=your_API_KEY</samp>
+</p>
+
+<h5>Adding Items</h5>
+<p class="query-strings">If you need to add items, please send them as <i>POST</i> requests only.
+<br><samp>https://kvserver.sozoalvin.com/api/v1/additems?api=your_API_KEY</samp>
+<br><br>Along with your request, please remember to include the json encoded content.
+<br>Each item should include the Foodname and Price reprsenting the menu's dish name and the price respectively.
+</p>
+
+<h5>Editing Items</h5>
+<p class="query-strings">When editing items, please send them as <i>PUT</i> requests only.
+<br><samp>https://kvserver.sozoalvin.com/api/v1/edititems?api=your_API_KEY</samp>
+<br><br>Along with your request, please remember to include the json encoded content.
+<br>Each item should include the OldFoodname, NewFoodname, Price representing the menu's old name, menu's new name as well as the desired price respectively. 
+</p>
+
+<h5>Deleting Items</h5>
+<p class="query-strings">When deleting items, please send them as <i>DELETE</i> requests only.
+<br><samp>https://kvserver.sozoalvin.com/api/v1/deleteitems?api=your_API_KEY</samp>
+<br><br>Along with your request, please remember to include the json encoded content.
+<br>Each item should include the Foodname representing the current menu's name. 
+</p>
+
+</div>
+
+
+
+<div class="container pb-4"></div>
+
+</body>
+
+{{template "new-footer"}}
+
+</html> 

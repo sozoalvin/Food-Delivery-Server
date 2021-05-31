@@ -46,7 +46,7 @@
 <div class="container bg-light ml-10 mr-10 rounded shadow-sm p-2 mb-3 rounded">
 <div class="container p-1">
 <h3>Your Cart</h3>
-</div></div>
+</div></div> 
 
 
 <div class="container bg-light ml-10 mr-10 rounded shadow-sm p-2 mb-3 rounded">
@@ -60,22 +60,25 @@
 
 {{range $KEY, $VALUE := .Data}}
 	<form method="post"> 	
-<div class="row">	
-  <div class="col-sm-8">{{$VALUE.FoodName}}	
-  <input type = "hidden" name = "pid" value = {{$VALUE.PID}}	
-  </div>	
-  <div class="col-sm-4"></div>	
-</div>	
-<div class="row">	
-  <div class="col-6"><input type="number" class="form-control text-justify" name="quantity" value={{$VALUE.Quantity}}>	
-</div>	
-  <div class="col-6"><button type="submit" class="btn btn-dark text-justify" name="updatecart" value="updatecart">Update</button></div></div>
-</div>
+
+    <div class="row">	
+    <div class="col-sm-8">{{$VALUE.FoodName}}<input type = "hidden" name = "pid" value = {{$VALUE.PID}}></div>	
+    <div class="col-sm-4"></div>	
+    </div>	
+
+   <div class="row">	
+  <div class="col-sm-8"></div>
+	
+  <div class="col-sm-2"><input type="number" class="form-control text-justify" name="quantity" value={{$VALUE.Quantity}}></div>
+  <div class="col-sm-2"><button type="submit" class="btn btn-dark text-justify" name="updatecart" value="updatecart">Update</button></div>
+
+</div> 
+
 
 <div class="row">
   <div class="col-sm-8 pt-1"><p>Unit Cost</p></div>
   <div class="col-sm-4 pt-1"><p>${{$VALUE.UnitPrice}}</p></div>
-  
+
 </div>
 
 <div class="row">
@@ -110,7 +113,12 @@
 </div>
 </div>
 
+</div></div>
+<div class="container pb-4"></div>
+
 </body>
+
+{{template "new-footer"}}
 </html> 
 
 

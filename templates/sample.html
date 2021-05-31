@@ -4,85 +4,6 @@
     <meta charset="UTF-8">
     <title>Edit User Profile</title>
 
-
-<script>
-window.onload=function(){
-
-document.getElementById("copyButton").addEventListener("click", function() {
-  copyToClipboardMsg(document.getElementById("copyTarget"), "msg");
-});
-
-
-function copyToClipboardMsg(elem, msgElem) {
-  var succeed = copyToClipboard(elem);
-  var msg;
-  if (!succeed) {
-    msg = "Copy not supported or blocked.  Press Ctrl+c to copy."
-  } else {
-    msg = "Text copied to the clipboard."
-  }
-  if (typeof msgElem === "string") {
-    msgElem = document.getElementById(msgElem);
-  }
-  msgElem.innerHTML = msg;
-  setTimeout(function() {
-    msgElem.innerHTML = "";
-  }, 2000);
-}
-
-function copyToClipboard(elem) {
-  // create hidden text element, if it doesn't already exist
-  var targetId = "_hiddenCopyText_";
-  var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
-  var origSelectionStart, origSelectionEnd;
-  if (isInput) {
-    // can just use the original source element for the selection and copy
-    target = elem;
-    origSelectionStart = elem.selectionStart;
-    origSelectionEnd = elem.selectionEnd;
-  } else {
-    // must use a temporary form element for the selection and copy
-    target = document.getElementById(targetId);
-    if (!target) {
-      var target = document.createElement("textarea");
-      target.style.position = "absolute";
-      target.style.left = "-9999px";
-      target.style.top = "0";
-      target.id = targetId;
-      document.body.appendChild(target);
-    }
-    target.textContent = elem.textContent;
-  }
-  // select the content
-  var currentFocus = document.activeElement;
-  target.focus();
-  target.setSelectionRange(0, target.value.length);
-
-  // copy the selection
-  var succeed;
-  try {
-    succeed = document.execCommand("copy");
-  } catch (e) {
-    succeed = false;
-  }
-  // restore original focus
-  if (currentFocus && typeof currentFocus.focus === "function") {
-    currentFocus.focus();
-  }
-
-  if (isInput) {
-    // restore prior selection
-    elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-  } else {
-    // clear temporary content
-    target.textContent = "";
-  }
-  return succeed;
-}
-}
-</script>
-
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -113,7 +34,6 @@ function copyToClipboard(elem) {
 
 <div class="container bg-light ml-10 mr-10 rounded shadow-sm pt-3 pb-1 pl-4 mb-3 bg-white rounded">
 
-<input id="copyTarget" value="Some initial text"> <button id="copyButton">Copy</button><br><br>
 
 <form method="post">
   <div class="form-group pt-1">
@@ -162,5 +82,10 @@ function copyToClipboard(elem) {
 </div>
 </div>
 
+<div class="container pb-4"></div>
+
 </body>
-</html>
+
+{{template "new-footer"}}
+
+</html> 
