@@ -56,7 +56,7 @@ The app used to be running on local memory but has since moved to AWS's RDS with
 <p>Lost API? Revoke with a simple click and lock out all clients using your old API key</p>
 <img src = "https://i.imgur.com/ojn0LQ4.png" width="700">
 
-<h2>API Documentation Now Made available</h2>
+<h2>API Documentation Now Made Available</h2>
 <p>Click <a href="https://kvserver.com/apireference" target="_blank">here</a> for a direct link to view the KVFood Server Documentation</p>
 <a href="https://kvserver.com/apireference" target="_blank"><img src = "https://i.imgur.com/rCJSBtr.png" width="700"></a>
 <br>
