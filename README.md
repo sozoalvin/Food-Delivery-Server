@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="styles.css">
 
 # Food Delivery REST API Backend Server
-Full REST API Backend Server System for Food Delivery Applications. Written in go/ golang with search, auto complete and suggestive search as well. The server also utilizes different flags that can be switced on and off, depending on environment settings and testing requirements.
+Full REST API Backend Server System for Food Delivery Applications. Written in go/ golang with search, auto complete and suggestive search as well. The server also utilizes different flags that can be switched on and off, depending on environment settings and testing requirements.
 
 <img src = "https://i.imgur.com/XFUVxvV.png" width="700">
 
